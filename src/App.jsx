@@ -9,9 +9,11 @@ function App() {
   const [characters, setCharacters] = useState([])
   const [randomEmoji, setRandomEmoji] = useState([])
   const [randomEmoji2, setRandomEmoji2] = useState([])
-
   const [num, setNum] = useState(0);
-
+  var round = 0;
+  var brackets = 4;
+  var emoji1 = document.getElementById("0");
+  var emoji2 = document.getElementById("1");
 
   function startGame() {
     var x = document.getElementById("container");
@@ -21,7 +23,6 @@ function App() {
     } else {
       x.style.display = "block";
     }
-
     if (y.style.display === "none") {
       y.style.display = "block";
     } else {
@@ -48,6 +49,16 @@ function App() {
 
     randomiseEmoji1()
     randomiseEmoji2()
+
+
+
+
+
+    for (let i = 0; i < brackets; i++) {
+
+      round++
+    }
+
   }
 
   function startNext() {
@@ -87,15 +98,22 @@ function App() {
   }
 
 
+
   return (
     <>
       <button id='start' onClick={() => { startGame() }} >Start The Game</button>
       <div className='container' id="container">
+        <h1>Round {round}</h1>
         <div id="option-buttons" className="btn-grid">
-          <div id="0">{randomEmoji && <p> {randomEmoji.character} </p>}</div>
-          <div id="1">{randomEmoji2 && <p>{randomEmoji2.character}</p>}</div>
-          <button onClick={() => { startNext() }} className="btn">Choose this</button>
-          <button onClick={() => { startNext() }} className="btn">Choose this</button>
+
+          <div id="0">{randomEmoji && <p> {randomEmoji.character} </p>}
+            <button id='btn1' onClick={() => { startNext() }} className="btn">Choose this</button>
+          </div>
+
+          <div id="1">{randomEmoji2 && <p>{randomEmoji2.character}</p>}
+            <button id='btn2' onClick={() => { startNext() }} className="btn">Choose this</button>
+          </div>
+
         </div>
       </div>
     </>
