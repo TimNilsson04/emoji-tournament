@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
-
+var round = 0;
 
 function App() {
 
@@ -9,13 +9,33 @@ function App() {
   const [characters, setCharacters] = useState([])
   const [randomEmoji, setRandomEmoji] = useState([])
   const [randomEmoji2, setRandomEmoji2] = useState([])
+  const [savedCharacters, setSavedCharacters] = useState([])
+  const [savedCharacters2, setSavedCharacters2] = useState([])
   const [num, setNum] = useState(0);
-  var round = 0;
-  var brackets = 4;
-  var emoji1 = document.getElementById("0");
-  var emoji2 = document.getElementById("1");
+
+  async function fetchCharacters() {
+    await fetch(`${baseUrl}access_key=${import.meta.env.VITE_API_KEY}`)
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+        setCharacters(result)
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
 
   function startGame() {
+    fetchCharacters(),
+
+      setNum(num + 1);
+    randomiseEmoji()
+    randomiseEmoji2()
+
+
+    randomiseEmoji()
+    randomiseEmoji2()
+
     var x = document.getElementById("container");
     var y = document.getElementById("start");
     if (x.style.display === "block") {
@@ -28,64 +48,23 @@ function App() {
     } else {
       y.style.display = "none";
     }
-
-    async function fetchCharacters() {
-      await fetch(`${baseUrl}access_key=${import.meta.env.VITE_API_KEY}`)
-        .then(res => res.json())
-        .then(result => {
-          console.log(result)
-          setCharacters(result)
-        }).catch(err => {
-          console.log(err)
-        })
-    }
-    fetchCharacters(),
-      [characters]
-
-    setNum(num + 1);
-    randomiseEmoji1()
-    randomiseEmoji2()
-
-
-    randomiseEmoji1()
-    randomiseEmoji2()
-
-
-
-
-
-    for (let i = 0; i < brackets; i++) {
-
-      round++
-    }
-
-  }
-
-  function startNext() {
-    async function fetchCharacters() {
-      await fetch(`${baseUrl}access_key=${import.meta.env.VITE_API_KEY}`)
-        .then(res => res.json())
-        .then(result => {
-          console.log(result)
-          setCharacters(result)
-        }).catch(err => {
-          console.log(err)
-        })
-    }
-    fetchCharacters(),
-      [characters]
-
-    setNum(num + 1);
-    randomiseEmoji1()
-    randomiseEmoji2()
-
-
-    randomiseEmoji1()
-    randomiseEmoji2()
   }
 
 
-  const randomiseEmoji1 = () => {
+  async function startNext() {
+    setNum(num + 1);
+    randomiseEmoji()
+    randomiseEmoji2()
+
+
+    randomiseEmoji()
+    randomiseEmoji2()
+
+    round++
+  }
+
+
+  const randomiseEmoji = () => {
     const charactersImage = characters.filter(characters => characters.character)
     const randomEmoji = charactersImage[Math.floor(Math.random() * charactersImage.length)]
     setRandomEmoji(randomEmoji)
@@ -97,7 +76,15 @@ function App() {
     setRandomEmoji2(randomEmoji2)
   }
 
+  function tournament() {
 
+    setSavedCharacters[document.getElementById("0").innerHTML]
+    setSavedCharacters2[document.getElementById("1").innerHTML]
+
+    return
+  }
+
+  console.log(savedCharacters)
 
   return (
     <>
